@@ -1,0 +1,11 @@
+{
+  "$schema": "../../node_modules/@microsoft/sp-module-interfaces/lib/manifestSchemas/jsonSchemas/clientSideComponentManifestSchema.json",
+
+  "id": "967f80cb-d16f-459b-9d9e-b9113374d569",
+  "alias": "HelloWorldApplicationCustomizer",
+  "componentType": "Extension",
+  "extensionType": "ApplicationCustomizer",
+  "version": "*", // The "*" signifies that the version should be taken from the package.json
+  "manifestVersion": 2,
+  "safeWithCustomScriptDisabled": true
+}

@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "name": "app-extension-client-side-solution",
+    "id": "7d73f07d-ae52-47a5-ae86-eb0f2aa1d9d8",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/app-extension.sppkg"
+  }
+}
