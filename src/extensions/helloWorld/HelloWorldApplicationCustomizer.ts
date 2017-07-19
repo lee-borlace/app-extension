@@ -1,10 +1,14 @@
 import { override } from '@microsoft/decorators';
 import { Log } from '@microsoft/sp-core-library';
 import {
-  BaseApplicationCustomizer
+  BaseApplicationCustomizer,
+  Placeholder
 } from '@microsoft/sp-application-base';
 
 import * as strings from 'helloWorldStrings';
+
+import styles from './AppCustomizer.module.scss';
+import { escape } from '@microsoft/sp-lodash-subset';
 
 const LOG_SOURCE: string = 'HelloWorldApplicationCustomizer';
 
@@ -15,12 +19,17 @@ const LOG_SOURCE: string = 'HelloWorldApplicationCustomizer';
  */
 export interface IHelloWorldApplicationCustomizerProperties {
   // This is an example; replace with your own property
-  testMessage: string;
+  Header: string;
+  Footer: string;
 }
 
 /** A Custom Action which can be run during execution of a Client Side Application */
 export default class HelloWorldApplicationCustomizer
   extends BaseApplicationCustomizer<IHelloWorldApplicationCustomizerProperties> {
+
+  private _headerPlaceholder: Placeholder;
+  private _footerPlaceholder: Placeholder;
+
 
   @override
   public onInit(): Promise<void> {
@@ -30,11 +39,78 @@ export default class HelloWorldApplicationCustomizer
 
   @override
   public onRender(): void {
-    let message: string = this.properties.testMessage;
-    if (!message) {
-      message = '(No properties were provided.)';
+
+    console.log('CustomHeader.onRender()');
+    console.log('Available placeholders: ',
+      this.context.placeholders.placeholderNames.join(', '));
+
+    // Handling the header placeholder
+    if (!this._headerPlaceholder) {
+      this._headerPlaceholder = this.context.placeholders.tryAttach(
+        'PageHeader',
+        {
+          onDispose: this._onDispose
+        });
+
+      // The extension should not assume that the expected placeholder is available.
+      if (!this._headerPlaceholder) {
+        console.error('The expected placeholder (PageHeader) was not found.');
+        return;
+      }
+
+      if (this.properties) {
+        let headerString: string = this.properties.Header;
+        if (!headerString) {
+          headerString = '(Header property was not defined.)';
+        }
+
+        if (this._headerPlaceholder.domElement) {
+          this._headerPlaceholder.domElement.innerHTML = `
+                <div class="${styles.app}">
+                  <div class="ms-bgColor-themeDark ms-fontColor-white ${styles.header}">
+                    <i class="ms-Icon ms-Icon--Info" aria-hidden="true"></i> ${escape(headerString)}
+                  </div>
+                </div>`;
+        }
+      }
     }
 
-    alert(`Hello from ${strings.Title}:\n\n${message}`);
+    // Handling the footer placeholder
+    if (!this._footerPlaceholder) {
+      this._footerPlaceholder = this.context.placeholders.tryAttach(
+        'PageFooter',
+        {
+          onDispose: this._onDispose
+        });
+
+      // The extension should not assume that the expected placeholder is available.
+      if (!this._footerPlaceholder) {
+        console.error('The expected placeholder (PageFooter) was not found.');
+        return;
+      }
+
+      if (this.properties) {
+        let footerString: string = this.properties.Footer;
+        if (!footerString) {
+          footerString = '(Footer property was not defined.)';
+        }
+
+        if (this._footerPlaceholder.domElement) {
+          this._footerPlaceholder.domElement.innerHTML = `
+                <div class="${styles.app}">
+                  <div class="ms-bgColor-themeDark ms-fontColor-white ${styles.footer}">
+                    <i class="ms-Icon ms-Icon--Info" aria-hidden="true"></i> ${escape(footerString)}
+                  </div>
+                </div>`;
+        }
+      }
+    }
   }
+
+
+  private _onDispose(): void {
+    console.log('[CustomHeader._onDispose] Disposed custom header.');
+  }
+
+
 }
