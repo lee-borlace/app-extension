@@ -42,85 +42,18 @@ export default class HelloWorldApplicationCustomizer
   @override
   public onRender(): void {
 
-    var googleAnalyticsCode:string = `
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    var d:any = new Date();
 
-  ga('create', 'UA-102899244-1', 'auto');
-  ga('send', 'pageview');
-`;
+    (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * d; a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-    var script:any = $("<script>" + googleAnalyticsCode + "</script>");
+    ga('create', 'UA-102899244-1', 'auto');
+    ga('send', 'pageview');
 
-    script.insertAfter("body");
-
-    // console.log('CustomHeader.onRender()');
-    // console.log('Available placeholders: ',
-    //   this.context.placeholders.placeholderNames.join(', '));
-
-    // // Handling the header placeholder
-    // if (!this._headerPlaceholder) {
-    //   this._headerPlaceholder = this.context.placeholders.tryAttach(
-    //     'PageHeader',
-    //     {
-    //       onDispose: this._onDispose
-    //     });
-
-    //   // The extension should not assume that the expected placeholder is available.
-    //   if (!this._headerPlaceholder) {
-    //     console.error('The expected placeholder (PageHeader) was not found.');
-    //     return;
-    //   }
-
-    //   if (this.properties) {
-    //     let headerString: string = this.properties.Header;
-    //     if (!headerString) {
-    //       headerString = '(Header property was not defined.)';
-    //     }
-
-    //     if (this._headerPlaceholder.domElement) {
-    //       this._headerPlaceholder.domElement.innerHTML = `
-    //             <div class="${styles.app}">
-    //               <div class="ms-bgColor-themeDark ms-fontColor-white ${styles.header}">
-    //                 <i class="ms-Icon ms-Icon--Info" aria-hidden="true"></i> ${escape(headerString)}
-    //               </div>
-    //             </div>`;
-    //     }
-    //   }
-    // }
-
-    // // Handling the footer placeholder
-    // if (!this._footerPlaceholder) {
-    //   this._footerPlaceholder = this.context.placeholders.tryAttach(
-    //     'PageFooter',
-    //     {
-    //       onDispose: this._onDispose
-    //     });
-
-    //   // The extension should not assume that the expected placeholder is available.
-    //   if (!this._footerPlaceholder) {
-    //     console.error('The expected placeholder (PageFooter) was not found.');
-    //     return;
-    //   }
-
-    //   if (this.properties) {
-    //     let footerString: string = this.properties.Footer;
-    //     if (!footerString) {
-    //       footerString = '(Footer property was not defined.)';
-    //     }
-
-    //     if (this._footerPlaceholder.domElement) {
-    //       this._footerPlaceholder.domElement.innerHTML = `
-    //             <div class="${styles.app}">
-    //               <div class="ms-bgColor-themeDark ms-fontColor-white ${styles.footer}">
-    //                 <i class="ms-Icon ms-Icon--Info" aria-hidden="true"></i> ${escape(footerString)}
-    //               </div>
-    //             </div>`;
-    //     }
-    //   }
-    // }
   }
 
 
